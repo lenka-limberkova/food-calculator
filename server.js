@@ -24,6 +24,16 @@ app.get("/api/foods", async (req, res) => {
     url.searchParams.set("dataType", "Foundation");
     url.searchParams.set("pageSize", "10");
 
+       console.log(
+  "API key diagnostics:",
+  {
+    exists: !!process.env.FDC_API_KEY,
+    length: process.env.FDC_API_KEY?.length,
+    first4: process.env.FDC_API_KEY?.slice(0, 4),
+    last4: process.env.FDC_API_KEY?.slice(-4)
+  }
+);
+
     const response = await fetch(url);
 
     // Pokud USDA API vrati chybu,
@@ -34,15 +44,7 @@ app.get("/api/foods", async (req, res) => {
       );
     }
 
-    console.log(
-  "API key diagnostics:",
-  {
-    exists: !!process.env.FDC_API_KEY,
-    length: process.env.FDC_API_KEY?.length,
-    first4: process.env.FDC_API_KEY?.slice(0, 4),
-    last4: process.env.FDC_API_KEY?.slice(-4)
-  }
-);
+ 
 
 
     const data = await response.json();
