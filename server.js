@@ -28,11 +28,20 @@ app.get("/api/foods", async (req, res) => {
 
     // Pokud USDA API vrati chybu,
     // vyhodime vlastni chybu.
+    // if (!response.ok) {
+    //   throw new Error(
+    //     `USDA API error: ${response.status}`
+    //   );
+    // }
     if (!response.ok) {
-      throw new Error(
-        `USDA API error: ${response.status}`
-      );
-    }
+  const errorText = await response.text();
+
+  console.error("USDA response:", errorText);
+
+  throw new Error(
+    `USDA API error: ${response.status}`
+  );
+}
 
     const data = await response.json();
 
