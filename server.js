@@ -28,20 +28,22 @@ app.get("/api/foods", async (req, res) => {
 
     // Pokud USDA API vrati chybu,
     // vyhodime vlastni chybu.
-    // if (!response.ok) {
-    //   throw new Error(
-    //     `USDA API error: ${response.status}`
-    //   );
-    // }
     if (!response.ok) {
-  const errorText = await response.text();
+      throw new Error(
+        `USDA API error: ${response.status}`
+      );
+    }
 
-  console.error("USDA response:", errorText);
+    console.log(
+  "API key diagnostics:",
+  {
+    exists: !!process.env.FDC_API_KEY,
+    length: process.env.FDC_API_KEY?.length,
+    first4: process.env.FDC_API_KEY?.slice(0, 4),
+    last4: process.env.FDC_API_KEY?.slice(-4)
+  }
+);
 
-  throw new Error(
-    `USDA API error: ${response.status}`
-  );
-}
 
     const data = await response.json();
 
